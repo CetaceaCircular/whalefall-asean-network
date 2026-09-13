@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cetacea Circular — Full-Court ASEAN Black Mass Network</title>
+<style>
+  :root{
+    --bg:#faf9f5; --ink:#191919; --muted:#6b6a63; --line:#e5e4df; --line2:#d8d6cd;
+    --panel:#ffffff; --olive:#6d8c02; --olive-soft:#eef3dd; --terra:#c2570f;
+    --shadow:0 1px 2px rgba(25,25,25,.06);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    background:var(--bg); color:var(--ink); font-size:14px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1360px; margin:0 auto; padding:0 24px 80px;}
+  header{border-bottom:1px solid var(--line2); padding:26px 0 20px; margin-bottom:24px;}
+  .eyebrow{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--olive); font-weight:700;}
+  h1{font-size:26px; font-weight:700; letter-spacing:-.01em; margin:6px 0 4px;}
+  .sub{color:var(--muted); font-size:13.5px; max-width:960px;}
+  .meta-row{display:flex; flex-wrap:wrap; gap:18px; margin-top:12px; font-size:12px; color:var(--muted);}
+  .meta-row b{color:var(--ink); font-weight:600;}
+  .controls{
+    display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start;
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:16px 18px; box-shadow:var(--shadow); margin-bottom:20px;
+  }
+  .phase-group{display:flex; flex-direction:column; gap:8px;}
+  .phase-group .lbl, .weights .lbl{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .phase-btns{display:flex; gap:8px; flex-wrap:wrap;}
+  .phase-btn{border:1px solid var(--line2); background:var(--bg); color:var(--ink); padding:8px 14px; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s ease;}
+  .phase-btn small{display:block; font-weight:400; color:var(--muted); font-size:11px; margin-top:1px;}
+  .phase-btn:hover{border-color:var(--olive);}
+  .phase-btn.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .phase-btn.active small{color:#c9c8c0;}
+  .weights{display:flex; flex-wrap:wrap; gap:14px 22px; flex:1; min-width:420px;}
+  .w-item{display:flex; flex-direction:column; gap:4px; width:150px;}
+  .w-item label{display:flex; justify-content:space-between; font-size:12px; font-weight:600;}
+  .w-item label span{color:var(--olive); font-variant-numeric:tabular-nums;}
+  input[type=range]{width:100%; accent-color:var(--olive); height:18px; cursor:pointer;}
+  .reset-btn{align-self:center; border:1px solid var(--line2); background:var(--bg); color:var(--muted); padding:7px 12px; border-radius:7px; font-size:12px; font-weight:600; cursor:pointer;}
+  .reset-btn:hover{color:var(--ink); border-color:var(--ink);}
+  .matrix-scroll{overflow-x:auto; background:var(--panel); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:8px;}
+  table{border-collapse:collapse; width:100%; min-width:1080px;}
+  th, td{padding:10px 12px; border-bottom:1px solid var(--line); text-align:center; vertical-align:middle;}
+  thead th{background:var(--bg); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700; border-bottom:1px solid var(--line2); padding:12px;}
+  thead th:first-child, tbody th{text-align:left;}
+  thead .wval{display:block; font-size:12px; color:var(--olive); font-weight:700; margin-top:2px; letter-spacing:0; text-transform:none;}
+  tbody th{font-weight:600; font-size:14px; white-space:nowrap;}
+  tbody th .tag{display:block; font-size:10.5px; color:var(--muted); font-weight:400; letter-spacing:.04em;}
+  .rank{font-size:16px; font-weight:800; font-variant-numeric:tabular-nums; width:44px;}
+  .score-cell{border-radius:6px; font-variant-numeric:tabular-nums; font-weight:600; width:64px;}
+  .score-cell:hover{outline:2px solid var(--olive-soft); background:var(--olive-soft);}
+  .score-cell input{width:44px; text-align:center; font:inherit; font-weight:600; border:1px solid transparent; background:transparent; color:inherit; border-radius:5px; padding:2px 0;}
+  .score-cell input:focus{outline:2px solid var(--olive); background:#fff;}
+  .total-col{background:#f6f5f0; border-left:1px solid var(--line2); border-right:1px solid var(--line2); min-width:190px;}
+  .total-num{font-size:17px; font-weight:800; font-variant-numeric:tabular-nums;}
+  .bar{height:6px; background:var(--line); border-radius:3px; margin-top:5px; overflow:hidden;}
+  .bar i{display:block; height:100%; background:var(--olive); border-radius:3px; transition:width .35s ease;}
+  .tier{display:inline-block; font-size:10px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; padding:3px 8px; border-radius:20px; margin-top:5px;}
+  .tier.t1{background:var(--olive); color:#fff;}
+  .tier.t2{background:var(--olive-soft); color:#4c6302;}
+  .tier.t3{background:#f3ede2; color:#8a6b3a;}
+  .tier.t4{background:var(--line); color:var(--muted);}
+  .expand-btn{cursor:pointer; user-select:none; color:var(--olive); font-size:11px; font-weight:700; letter-spacing:.05em; display:inline-block; margin-top:3px; border:none; background:none;}
+  tr.detail-row td{background:#fbfaf7; text-align:left; padding:18px 22px; border-bottom:1px solid var(--line2);}
+  .detail-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px 26px;}
+  .fact{border-top:2px solid var(--olive-soft); padding-top:8px;}
+  .fact b{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--olive); display:block; margin-bottom:3px;}
+  .fact p{font-size:12.5px; color:#3a3a35;}
+  .hidden{display:none;}
+  section{margin-top:44px;}
+  h2{font-size:17px; font-weight:700; margin-bottom:4px; letter-spacing:-.01em;}
+  .sec-sub{color:var(--muted); font-size:12.5px; margin-bottom:14px; max-width:900px;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px 18px; box-shadow:var(--shadow);}
+  .card h3{font-size:13px; font-weight:700; margin-bottom:6px;}
+  .card p, .card li{font-size:12.5px; color:#3a3a35;}
+  .insight{background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--terra); border-radius:8px; padding:14px 18px; margin-bottom:12px; font-size:13px;}
+  .insight b{color:var(--terra);}
+  /* sizing table */
+  .size-table{min-width:960px;}
+  .size-table td input{width:82px; text-align:right; font:inherit; font-size:13px; font-weight:600; border:1px solid transparent; background:transparent; border-radius:5px; padding:3px 4px;}
+  .size-table td input:focus{outline:2px solid var(--olive); background:#fff;}
+  .size-table td.editable:hover{outline:2px solid var(--olive-soft); background:var(--olive-soft);}
+  .mods{font-size:16px; font-weight:800; color:var(--olive);}
+  .basis{font-size:11px; color:var(--muted); text-align:left !important; max-width:380px;}
+  .wave-pill{display:inline-block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:3px 9px; border-radius:20px; background:var(--olive-soft); color:#4c6302;}
+  ol.src-list{padding-left:20px;}
+  ol.src-list li{font-size:12px; color:var(--muted); margin-bottom:6px;}
+  ol.src-list a{color:var(--olive); text-decoration:none; word-break:break-all;}
+  ol.src-list a:hover{text-decoration:underline;}
+  .note{font-size:11.5px; color:var(--muted); margin-top:14px; border-top:1px solid var(--line); padding-top:10px;}
+  @media (max-width:720px){ .weights{min-width:100%;} h1{font-size:21px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Cetacea Circular SG · Confidential · Network Strategy · v2 Full-Court</div>
+  <h1>Full-Court ASEAN Black Mass Network — Country Evaluation &amp; Module Sizing</h1>
+  <p class="sub">Strategy revision: a distributed Cetacea Circular pre-processing footprint across ASEAN + Australia, built on Whalefall modular LiBS lines (<b>1 / 1.5 / 2 / 2.5 t/hr</b>; reference module: ≥1 t/hr, 60 × 12 m, ~850 kW operating, 5 crew, 120–180 day install). All black mass is contracted via offtake to <b>Whalefall's GEN4 hydromet capacity in China</b>, wrapped in <b>Cetacea Carbon / Baiji CDRBM certification</b> (green traceability for China &amp; EU EPR / PCF / Battery Passport compliance), with <b>Phase 3 ECRU / Carbon</b> value-add as a later option. Modules are sized to local feedstock forecasts — e.g. Australia: 2 × 1 t/hr (NW WA mining-swap + NSW/QLD eastern volumes, or SA for BESS).</p>
+  <div class="meta-row">
+    <span>Data as of <b>September 2026</b></span>
+    <span>Scoring scale <b>1–5</b></span>
+    <span>Click score / feedstock cells to edit · weights adjustable · everything recomputes live</span>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="phase-group">
+    <span class="lbl">Weighting profile</span>
+    <div class="phase-btns">
+      <button class="phase-btn active" data-preset="network">Network build<small>full-court default</small></button>
+      <button class="phase-btn" data-preset="cdrmpremium">CDRBM premium<small>certification-led</small></button>
+      <button class="phase-btn" data-preset="feedstock">Feedstock-led<small>volume-first</small></button>
+    </div>
+  </div>
+  <div class="weights" id="weights"></div>
+  <button class="reset-btn" id="resetAll">Reset scores &amp; feedstock</button>
+</div>
+
+<div class="matrix-scroll">
+<table id="matrix">
+  <thead>
+    <tr>
+      <th style="width:40px">#</th>
+      <th style="min-width:150px">Country</th>
+      <th data-c="feedstock">Feedstock volume &amp; diversity<span class="wval"></span></th>
+      <th data-c="chinaexport">China export route &amp; spec<span class="wval"></span></th>
+      <th data-c="cdrbm">Green power &amp; CDRBM readiness<span class="wval"></span></th>
+      <th data-c="regulation">EoL / EPR / permit ease<span class="wval"></span></th>
+      <th data-c="whitespace">Recycling whitespace<span class="wval"></span></th>
+      <th data-c="parklog">Park &amp; logistics fit<span class="wval"></span></th>
+      <th data-c="optionality">Battery industry &amp; Ph2/3 option<span class="wval"></span></th>
+      <th class="total-col" style="text-align:center">Weighted total / 5</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+</div>
+<p class="note">“Recycling whitespace” is inverse-scored (5 = open field). Tiers: <b>Tier 1</b> ≥ 3.7 · <b>Tier 2</b> 3.4–3.69 · <b>Tier 3</b> 3.0–3.39 · <b>Watchlist</b> &lt; 3.0. The tier thresholds describe sequencing priority — the full-court plan still plants capacity in Tier 2 countries where feedstock justifies it (see module sizing below).</p>
+
+<section>
+  <h2>Network module sizing</h2>
+  <p class="sec-sub">Indicative 2030 collectible feedstock per country (EoL EV/2W + BESS/PV + manufacturing scrap; Cetacea planning estimates — edit the blue cells). Modules = feedstock ÷ per-module annual capacity. The reference 1 t/hr line at ~85% availability processes ≈ 7,500 t/yr.</p>
+  <div class="matrix-scroll">
+  <table class="size-table" id="sizing">
+    <thead>
+      <tr><th>Country</th><th>2030 collectible feedstock (t/yr)</th><th>Feedstock basis (indicative)</th><th>1 t/hr modules</th><th>Indicative sites</th><th>Wave</th></tr>
+    </thead>
+    <tbody id="sizingBody"></tbody>
+    <tfoot>
+      <tr style="background:#f6f5f0">
+        <th style="text-align:left">Network total</th>
+        <th id="totFeed" style="font-variant-numeric:tabular-nums"></th>
+        <th></th>
+        <th id="totMods" class="mods"></th>
+        <th colspan="2" style="font-size:11px;color:var(--muted)">≈ <span id="totGwh"></span> GWh-equivalent annual intake at 0.15 t battery/t feedstock</th>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+  <p class="note">Sizing inputs are planning estimates for team adjustment, not measured volumes. Australia reflects the stated plan (NW WA mining-swap cluster + eastern seaboard). Singapore operates as collection / CDRBM trading hub only — 0 modules. Philippines deferred to watchlist.</p>
+</section>
+
+<section>
+  <h2>Key findings — full-court revision</h2>
+  <div id="insights"></div>
+</section>
+
+<section>
+  <h2>Criterion definitions</h2>
+  <div class="cards" id="criteriaCards"></div>
+</section>
+
+<section>
+  <h2>CDRBM certification architecture</h2>
+  <p class="sec-sub">How Certified Decarbonised Recycled Battery Materials evidence flows from each network module, through the Singapore hub, to Whalefall's China hydromet output — supplying China &amp; EU EPR / PCF / Battery Passport compliance. Mass-balance chain of custody per ISO 22095 (site-level, one registry); PCF per ISO 14067. What CDRBM certifies: recycled origin &amp; chain of custody, decarbonised processing (green-power share), and PCF data quality — final market declarations remain the customer's, built on CDRBM data.</p>
+  <div class="cards" id="cdrbmStages"></div>
+  <div id="cdrbmRules" style="margin-top:16px"></div>
+  <div id="cdrbmAnchors" style="margin-top:16px"></div>
+</section>
+
+<section>
+  <h2>Evidence base &amp; sources</h2>
+  <p class="sec-sub">Public sources consulted September 2026. Scores and feedstock estimates are Cetacea Circular SG judgement calibrated to these data points.</p>
+  <ol class="src-list" id="sources"></ol>
+  <p class="note">Regulatory positions (EPR scope, waste-battery movement permits, China import spec enforcement) change frequently — re-verify with local counsel during site due diligence. ACFTA 3.0 was signed 28 Oct 2025 and is pending ratification; RCEP currently governs preferential black-mass tariffs into China (ASEAN-origin 0%; Australia 3% from Jan 2026). Whalefall module specifications are per the Phase 1 LiBS line datasheet (≥1 t/hr, black powder recovery ≥98%, purity ≥95%, Cu/Al impurities ≤1.5%, electromagnetic pyrolysis).</p>
+</section>
+
+</div>
+
+<script>
+const CRITERIA = [
+  {key:'feedstock',  name:'Feedstock volume & diversity (EV·2W·BESS·industrial)', short:'Feedstock'},
+  {key:'chinaexport',name:'China export route & black-mass spec compliance', short:'China export'},
+  {key:'cdrbm',      name:'Green power & CDRBM certification readiness', short:'CDRBM readiness'},
+  {key:'regulation', name:'EoL / EPR / import-export permit ease', short:'Permit ease'},
+  {key:'whitespace', name:'Domestic recycling whitespace (inverse competition)', short:'Whitespace'},
+  {key:'parklog',    name:'Industrial park & logistics fit (modular, ports)', short:'Park & logistics'},
+  {key:'optionality',name:'Local battery industry & Phase 2/3 (ECRU/Carbon) optionality', short:'Ph2/3 option'},
+];
+const PRESETS = {
+  network:     {label:'Network build',   w:{feedstock:25,chinaexport:20,cdrbm:15,regulation:15,whitespace:10,parklog:10,optionality:5}},
+  cdrmpremium: {label:'CDRBM premium',   w:{feedstock:15,chinaexport:15,cdrbm:30,regulation:15,whitespace:5,parklog:10,optionality:10}},
+  feedstock:   {label:'Feedstock-led',   w:{feedstock:35,chinaexport:15,cdrbm:10,regulation:15,whitespace:10,parklog:10,optionality:5}},
+};
+const MODULE_TPY = 7500; // tonnes per year per 1 t/h module at ~85% availability
+
+const BASELINE = {
+  idn:{name:'Indonesia', tag:'ASEAN · 2W-swap & nickel-chain feedstock', mode:'plant', scores:{feedstock:5,chinaexport:4,cdrbm:2,regulation:3,whitespace:2,parklog:4,optionality:5}, feed:15000, sites:'Karawang (battery cluster) + Surabaya/E Java (2W-swap)', wave:'Wave 2', facts:{
+    feedstock:'Largest long-term raw stream: millions of e-motorcycle swap batteries with fast churn, EV sales >100k/yr and growing fastest in ASEAN (43k→104k 2024→25), plus nickel-chain manufacturing scrap as CATL/LGES plants ramp.',
+    chinaexport:'RCEP zero-tariff black mass to China; established bulk-shipping lanes; spec compliance hinges on disciplined pyrolysis (F ≤0.4%) — Whalefall line\'s electromagnetic pyrolysis is designed for exactly this.',
+    cdrbm:'Weakest pillar: ~60%+ coal grid and immature certification infrastructure — but at ~850 kW operating load per module, RECs + captive rooftop solar can credibly cover consumption; traceability must be built.',
+    regulation:'GR 22/2021 e-waste framework; battery EPR evolving; TKDN local-content politics; waste-battery permits restrictive but export of compliant black mass as non-waste (China GB/T 45203-2024 route) is workable.',
+    whitespace:'Most contested policy field: IBC/CATL-Brunp recycling integration and strong informal collectors; narrow but not closed for a certified, export-grade operator.',
+    parklog:'Abundant cheap parks (Karawang, Gresik); 60×12 m module fits anywhere; port access via Tanjung Priok/Surabaya.',
+    optionality:'Highest Phase 2/3 optionality: national downstreaming policy wants exactly this value chain; ECRU/Carbon could anchor in the nickel corridor.'}},
+  tha:{name:'Thailand', tag:'ASEAN · network anchor', mode:'plant', scores:{feedstock:4,chinaexport:5,cdrbm:4,regulation:4,whitespace:3,parklog:5,optionality:4}, feed:15000, sites:'EEC (Chachoengsao / Rayong corridor)', wave:'Wave 1', facts:{
+    feedstock:'~140k EVs sold 2025 (+70%), ~24% of new cars; e-bus fleets; ~10 GW solar with BESS in PDP; Energy Absolute & pack-plant manufacturing scrap available now.',
+    chinaexport:'Best route in ASEAN: RCEP zero tariff, Laem Chabang deep-sea port, dense China shipping, and the industrial base to hold the 0.4% fluoride spec batch after batch.',
+    cdrbm:'Utility Green Tariff direct-PPA live since Jul 2024 (full framework 2026) + mature REC market → cheapest credible CDRBM power story after Vietnam/Australia.',
+    regulation:'Established hazmat regime; BOI actively promotes recycling investment; draft battery/WEEE act advancing; permits navigable with local partner.',
+    whitespace:'Moderate: local recyclers active, no dominant certified export-grade player; first-mover window for CDRBM-positioned capacity.',
+    parklog:'Best-in-class: EEC green industrial parks, mature chemicals services, modular line installable in 120–180 days inside existing estates.',
+    optionality:'Strong Phase-2 candidate (EA cell plant, auto cluster); Phase 3 ECRU would sit well in the EEC ecosystem.'}},
+  vnm:{name:'Vietnam', tag:'ASEAN · CDRBM-ready volume', mode:'plant', scores:{feedstock:4,chinaexport:4,cdrbm:5,regulation:3,whitespace:2,parklog:4,optionality:4}, feed:11000, sites:'North (Hanoi/Haiphong corridor) or HCMC–Binh Duong', wave:'Wave 2', facts:{
+    feedstock:'Highest ASEAN EV penetration (~33–40% of new cars 2025, VinFast 175k units) plus ~100M-population consumer/3C stream and large electronics manufacturing scrap; 16+ GW solar fleet starts aging into EoL from early 2030s.',
+    chinaexport:'RCEP zero tariff; short sea freight to South China refining hubs; strong existing China trade lanes.',
+    cdrbm:'Best certification story in ASEAN: Decree 80/2024→57/2025 direct-PPA regime, 16+ GW solar/wind/hydro, low-cost RECs — cleanest mass-balance ledger for CDRBM claims.',
+    regulation:'First ASEAN EPR (Decree 08/2022) covers batteries but enforcement is maturing; waste-battery import restricted (domestic focus) — fine for a domestic-feedstock, export-product model.',
+    whitespace:'Rising: regional recyclers scouting the low-cost base; informal dismantling prevalent; no licensed large-scale export-grade operator yet — window narrowing.',
+    parklog:'Deep low-cost industrial-park stock; 60×12 m module trivially accommodated; Haiphong/HCMC ports well connected to China.',
+    optionality:'VinFast ecosystem + Ha Tinh plant announcements give real Phase-2 pull; Phase 3 optional add-on.'}},
+  mys:{name:'Malaysia', tag:'ASEAN · manufacturing-scrap play', mode:'plant', scores:{feedstock:3,chinaexport:4,cdrbm:3,regulation:4,whitespace:2,parklog:4,optionality:5}, feed:6000, sites:'Kulim Hi-Tech Park or Port Klang corridor', wave:'Wave 3', facts:{
+    feedstock:'Near-term stream is manufacturing scrap: Samsung SDI Seremban cylindrical plant + national cell trajectory 6→37.4 GWh by 2030; consumer EV volumes still modest (EV share ~7–9%).',
+    chinaexport:'RCEP zero tariff; established China trade lanes; Port Klang direct shipping.',
+    cdrbm:'CRESS corporate PPAs live (Sep 2024) + GET/CGPP schemes; hydro ~17% helps the ledger; coal-heavy grid means certificate-based coverage at module scale.',
+    regulation:'Most mature scheduled-waste regime in ASEAN (EQ(SW) 2005 + eSWIS digital tracking) — clean audit trail, a genuine CDRBM asset.',
+    whitespace:'Crowded for its size: EcoNiLi Perak (24 kt in / 12 kt black mass), GLC Recycle and others; compete on certification + offtake certainty, not volume.',
+    parklog:'Kulim Hi-Tech / Iskandar / Port Klang parks are experienced and chemicals-ready.',
+    optionality:'Highest manufacturing-pull Phase-2 optionality after Indonesia; ECRU/Carbon could pair with the E&E cluster.'}},
+  phl:{name:'Philippines', tag:'ASEAN · watchlist', mode:'deferred', scores:{feedstock:2,chinaexport:3,cdrbm:3,regulation:3,whitespace:3,parklog:2,optionality:2}, feed:3000, sites:'(deferred — Luzon if triggered)', wave:'Watchlist', facts:{
+    feedstock:'29,715 EV registrations Jan–Jul 2025 from a low base; 4.5 GWh Terra Solar BESS (2026) is future, not present, feedstock.',
+    chinaexport:'RCEP in force (2023); workable but weakest China logistics integration in scope.',
+    cdrbm:'High RE ambitions (50% by 2030) but grid coal-heavy today; procurement options nascent.',
+    regulation:'EPR (RA 11898) still packaging-focused; battery extension expected; permits and customs slow.',
+    whitespace:'Real whitespace — few organized Li-ion recyclers — but collection infrastructure is immature.',
+    parklog:'Higher power/logistics costs; thin chemicals-processing services.',
+    optionality:'Limited until cell/pack investment lands; revisit 2028+.'}},
+  sgp:{name:'Singapore', tag:'ASEAN · CDRBM hub, 0 modules', mode:'hub', scores:{feedstock:2,chinaexport:5,cdrbm:4,regulation:5,whitespace:2,parklog:2,optionality:2}, feed:2000, sites:'Hub only: collection + certification & trading desk', wave:'Wave 1 (hub)', facts:{
+    feedstock:'Highest EV share in ASEAN but small absolute volumes; land-constrained — no plant economics.',
+    chinaexport:'CSFTA + RCEP + ACFTA; premier arbitration & contract jurisdiction for offtake structures.',
+    cdrbm:'Resource Sustainability Act EPR covers batteries incl. EV; mature REC market; the natural home of the CDRBM certification, mass-balance and Battery Passport data function for the whole network.',
+    regulation:'Most predictable regulator in scope; strict EoL import controls mean SG is a compliance/trading node, not a processing node.',
+    whitespace:'Densest recycling-tech HQ cluster (Green Li-ion, GLC, Ace Green origin) — compete for standards, not feedstock.',
+    parklog:'No viable 10-ha or even 60×12 m greenfield economics for processing; offices/lab yes.',
+    optionality:'As HQ + certification issuer + regional treasury, it underwrites every other node\'s CDRBM premium.'}},
+  aus:{name:'Australia', tag:'OUTLIER · BESS & mining electrification', mode:'plant', scores:{feedstock:5,chinaexport:3,cdrbm:5,regulation:4,whitespace:4,parklog:3,optionality:2}, feed:15000, sites:'2 × modules: NW WA (Pilbara mining-swap) + NSW/QLD (east) or SA (BESS)', wave:'Wave 1', facts:{
+    feedstock:'World-scale stationary/industrial EoL pipeline: 221k home batteries installed 2025 (3× YoY; 4,790 MWh; avg 21.6 kWh; ~350k forecast 2026), >25 GWh grid BESS under construction, and mining-truck electrification (Fortescue–Liebherr T 264 in the Pilbara from 2026, $6.2bn Real Zero).',
+    chinaexport:'The one weak pillar: China black-mass tariff 3% (cut from 6.5%, Jan 2026) vs 0% for ASEAN origin, plus freight distance — argues for either blended ASEAN-origin accounting where legitimate, or prioritising Japan/Korea/ANZ offtake for Australian output.',
+    cdrbm:'Best green-power story in scope (world-leading rooftop PV per capita, ~40%+ renewables, LGC scheme) → strongest CDRBM/certified-decarbonised claims; B-cycle stewardship re-authorized (ACCC, Nov 2025) gives an audit-ready collection framework.',
+    regulation:'Transparent federal/state regimes; state chemical licensing slow but navigable; mandatory EPR likely — collection rights will formalise.',
+    whitespace:'Under-capitalized competition (Livium, Ecobatt/Ecocycle) despite large future volumes — Cetacea can lock feedstock via mining & utility partnerships early.',
+    parklog:'Land and construction costs high; modular 120–180 day installs and mine-site adjacency (NW WA) mitigate.',
+    optionality:'Limited local cell manufacturing → keep as feedstock node; Phase 2/3 not the play here — the play is early lock-in of the mining-swap and BESS decommissioning streams.'}},
+};
+
+const SIZING_BASIS = {
+  idn:'EV EoL ramp + e-motorcycle swap churn + nickel-chain manufacturing scrap (CATL/LGES ramp)',
+  tha:'EV fleet EoL begins + e-bus batteries + EA/pack-plant manufacturing scrap + early BESS',
+  vnm:'Consumer/3C stream + electronics manufacturing scrap + EV EoL ramp from 2028; solar fleet EoL from early 2030s',
+  mys:'Cell-plant production scrap (Samsung SDI ramp; national 6→37 GWh trajectory) + consumer EV EoL',
+  phl:'Early EV registrations + future BESS (Terra Solar 2026) — collection immature',
+  sgp:'Small absolute volumes; collected via hub and baled for network processing',
+  aus:'Home-battery EoL wave (221k installs 2025, 3× YoY) + mining-swap fleets (Pilbara) + grid BESS decommissioning',
+};
+
+const SOURCES = [
+  ['Whalefall Phase 1 LiBS recycling line datasheet (1/1.5/2/2.5 t/hr models; ≥98% black powder recovery; purity ≥95%; Cu/Al ≤1.5%; 850 kW operating; 60×12 m; 120–180 day construction)','internal'],
+  ['Ken Research — ASEAN Electric Vehicle Market (2025 base; THA ~140k sales, VNM penetration ~40%, IDN share ~15%)','https://www.kenresearch.com/industry-reports/asean-electric-vehicle-market'],
+  ['Marqstats — ASEAN EV Market 2026 (GAIKINDO IDN 43,188→103,931 units; BYD Subang $1bn; Hyundai-LGES Karawang 10 GWh; VinFast 175,099 units)','https://marqstats.com/reports/asean-electric-vehicle-market/'],
+  ['Electrive — CATL breaks ground on Indonesian battery plant (Karawang 6.9→15 GWh, ops end-2026)','https://www.electrive.com/2025/06/30/catl-breaks-ground-on-indonesian-battery-plant/'],
+  ['Benchmark Mineral Intelligence — The hidden gigafactories (Malaysia 6→37.4 GWh by 2030; Samsung SDI Seremban; Energy Absolute 1 GWh THA)','https://source.benchmarkminerals.com/article/the-hidden-gigafactories-powering-emerging-markets'],
+  ['Fastmarkets — China black mass import rules effective Aug 1 2025 (F ≤0.4%; SE Asia as upgrade hub)','https://www.fastmarkets.com/insights/china-black-mass-import-rules/'],
+  ['National Law Review — China black mass classification (GB/T 45203-2024; HS 3824 9999 96)','https://natlawreview.com/article/china-and-europe-diverge-classification-black-mass-recycling-lithium-ion-batteries'],
+  ['Benchmark Mineral Intelligence — China cuts black mass import tariff to 3% from 6.5% (Jan 1 2026); ASEAN already zero-tariff','https://source.benchmarkminerals.com/article/china-reduces-import-tariffs-for-recycled-black-mass'],
+  ['SMM — China black mass import statistics Nov 2025 (clearance volumes, ASEAN origin share)','https://news.metal.com/newscontent/103748966-smm-analysischinas-import-and-export-situation-of-black-mass-in-2025'],
+  ['ASEAN Secretariat — ACFTA 3.0 Upgrade Protocol signed 28 Oct 2025, Kuala Lumpur','https://asean.org/our-communities/economic-community/integration-with-global-economy/asean-china-economic-relation/priority-areas-of-cooperation/'],
+  ['GIZ / Japanese MoE — E-waste from renewable-energy components in ASEAN (regulatory coverage; BESS waste notes)','https://www.env.go.jp/en/recycle/asian_net/Annual_Workshops/2025_PDF/Session3/S3_GIZ_Indonesia.pdf'],
+  ['ChemLinked — Vietnam Decree 08/2022 EPR (first in ASEAN, covers batteries)','https://sustainability.chemlinked.com/news/navigating-asian-epr-policies-south-korea-japan-and-southeast-asia'],
+  ['E3S — Comparative analysis of ASEAN solar policies (installed PV by country)','https://www.e3s-conferences.org/articles/e3sconf/pdf/2025/71/e3sconf_iseep25_01007.pdf'],
+  ['Earth Energy Log — Thailand renewables 2026 (~16 GW; UGT direct-PPA)','https://earthenergylog.com/articles/thailand-renewable-2026'],
+  ['Lexology — Vietnam DPPA Decree 80/2024 → Decree 57/2025','https://www.lexology.com/library/detail.aspx?g=ee065053-74bb-469f-af80-ccf046755138'],
+  ['Nagashima Ohno & Tsunematsu — Thailand Direct PPA draft regulation (Oct 2025)','https://www.nagashima.com/en/publications/publication20251222-2/'],
+  ['Ren Inc — Malaysia CRESS corporate PPA scheme (Sep 2024)','https://ren.inc/blogs/renewables-recap-2024-apac-clean-energy-policy-shifts'],
+  ['Recycling Today — EcoNiLi Perak hydromet plant (24 kt in / 12 kt black mass)','https://www.recyclingtoday.com/news/econili-lithium-ion-battery-black-mass-recycling-malaysia-china/'],
+  ['ChannelLife / SunWiz — Australia home battery installs tripled in 2025 (221k units, 4,790 MWh; ~350k forecast 2026)','https://channellife.com.au/story/australia-s-home-battery-installations-triple-in-2025'],
+  ['Fortescue — Track to Truck: Liebherr T 264 battery-electric haul truck, Pilbara 2026','https://www.fortescue.com/track-to-truck'],
+  ['ACCC — B-cycle battery stewardship scheme re-authorized for 5 years (Nov 2025)','https://www.accc.gov.au/media-release/end-of-life-battery-disposal-scheme-allowed-to-continue'],
+  ['GetGorgeous / DOE — Malaysia Scheduled Wastes Regulations 2005 & eSWIS enforcement','https://getgorgeous.com.my/scheduled-waste-in-malaysia-a-2025-guide-for-businesses/'],
+  ['LKY School of Public Policy (NUS) — Clean energy cost competitiveness & Singapore power import agreements','https://lkyspp.nus.edu.sg/docs/default-source/aci/acirp202608.pdf'],
+];
+
+const state = {
+  weights: Object.assign({}, PRESETS.network.w),
+  scores: JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(BASELINE).map(([k,v])=>[k,Object.assign({},v.scores)])))),
+  feed: Object.fromEntries(Object.entries(BASELINE).map(([k,v])=>[k,v.feed])),
+  moduleTpy: MODULE_TPY,
+};
+
+function tierOf(total){
+  const r = Math.round(total * 100) / 100;
+  if(r >= 3.7) return ['Tier 1','t1'];
+  if(r >= 3.4) return ['Tier 2','t2'];
+  if(r >= 3.0) return ['Tier 3','t3'];
+  return ['Watchlist','t4'];
+}
+function totals(){
+  const t = {};
+  for(const c in state.scores){
+    let s = 0;
+    for(const k of CRITERIA) s += state.scores[c][k.key] * state.weights[k.key] / 100;
+    t[c] = s;
+  }
+  return t;
+}
+
+function renderWeights(){
+  const box = document.getElementById('weights');
+  box.innerHTML = '<span class="lbl" style="width:100%">Criterion weights (%)</span>';
+  for(const c of CRITERIA){
+    const div = document.createElement('div');
+    div.className = 'w-item';
+    div.innerHTML = `<label>${c.short}<span id="wv-${c.key}">${state.weights[c.key]}%</span></label>
+      <input type="range" min="0" max="40" step="1" value="${state.weights[c.key]}" data-key="${c.key}">`;
+    box.appendChild(div);
+  }
+  box.querySelectorAll('input[type=range]').forEach(r=>{
+    r.addEventListener('input', ()=>{
+      state.weights[r.dataset.key] = +r.value;
+      document.getElementById('wv-'+r.dataset.key).textContent = r.value + '%';
+      document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
+      renderTable();
+    });
+  });
+}
+
+function renderTable(){
+  const t = totals();
+  const ranked = Object.keys(t).sort((a,b)=> t[b]-t[a] || a.localeCompare(b));
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  document.querySelectorAll('thead th[data-c] .wval').forEach(el=>{
+    el.textContent = state.weights[el.parentElement.dataset.c] + '%';
+  });
+  ranked.forEach((c, i)=>{
+    const d = BASELINE[c], s = state.scores[c];
+    const total = t[c];
+    const [tierName, tierCls] = tierOf(total);
+    const tr = document.createElement('tr');
+    tr.dataset.country = c;
+    let cells = `<td class="rank">${i+1}</td>
+      <th>${d.name}<span class="tag">${d.tag}</span><br><button class="expand-btn" data-expand="${c}">KEY FACTS ▾</button></th>`;
+    for(const k of CRITERIA){
+      cells += `<td class="score-cell" title="${k.name} — click to edit">
+        <input type="number" min="1" max="5" step="1" value="${s[k.key]}" data-c="${c}" data-k="${k.key}"></td>`;
+    }
+    cells += `<td class="total-col"><span class="total-num">${total.toFixed(2)}</span>
+      <div class="bar"><i style="width:${(total/5*100).toFixed(1)}%"></i></div>
+      <span class="tier ${tierCls}">${tierName}</span></td>`;
+    tr.innerHTML = cells;
+    tbody.appendChild(tr);
+    const det = document.createElement('tr');
+    det.className = 'detail-row hidden';
+    det.id = 'detail-'+c;
+    det.innerHTML = `<td colspan="10"><div class="detail-grid">${
+      CRITERIA.map(k=>`<div class="fact"><b>${k.name}</b><p>${d.facts[k.key]}</p></div>`).join('')
+    }</div></td>`;
+    tbody.appendChild(det);
+  });
+  tbody.querySelectorAll('input[data-c]').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      let v = Math.round(+inp.value);
+      if(isNaN(v)) v = 3;
+      v = Math.max(1, Math.min(5, v));
+      inp.value = v;
+      state.scores[inp.dataset.c][inp.dataset.k] = v;
+      renderTable();
+    });
+  });
+  tbody.querySelectorAll('.expand-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const row = document.getElementById('detail-'+btn.dataset.expand);
+      row.classList.toggle('hidden');
+      btn.textContent = row.classList.contains('hidden') ? 'KEY FACTS ▾' : 'KEY FACTS ▴';
+    });
+  });
+}
+
+function renderSizing(){
+  const tbody = document.getElementById('sizingBody');
+  tbody.innerHTML = '';
+  let totF = 0, totM = 0, plantF = 0;
+  for(const c in BASELINE){
+    const d = BASELINE[c];
+    const f = state.feed[c];
+    const mods = d.mode === 'plant' ? Math.max(0, Math.ceil(f / state.moduleTpy - 1e-9)) : 0;
+    totF += f; totM += mods;
+    if(d.mode === 'plant') plantF += f;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<th style="text-align:left">${d.name}</th>
+      <td class="editable"><input type="number" min="0" step="500" value="${f}" data-feed="${c}"></td>
+      <td class="basis">${SIZING_BASIS[c]}</td>
+      <td class="mods">${mods}${d.mode !== 'plant' ? ' <span style="font-size:10px;color:var(--muted)">(' + d.mode + ')</span>' : ''}</td>
+      <td style="font-size:12px;color:#3a3a35">${d.mode !== 'plant' ? '— (' + d.mode + ')' : d.sites}</td>
+      <td><span class="wave-pill">${d.wave}</span></td>`;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('totFeed').textContent = totF.toLocaleString() + ' t/yr';
+  document.getElementById('totMods').textContent = totM + ' modules';
+  document.getElementById('totGwh').textContent = (plantF * 0.15 / 1000).toFixed(1);
+  tbody.querySelectorAll('input[data-feed]').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      let v = Math.round(+inp.value);
+      if(isNaN(v) || v < 0) v = 0;
+      inp.value = v;
+      state.feed[inp.dataset.feed] = v;
+      renderSizing();
+    });
+  });
+}
+
+document.querySelectorAll('.phase-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.weights = Object.assign({}, PRESETS[btn.dataset.preset].w);
+    renderWeights();
+    renderTable();
+  });
+});
+document.getElementById('resetAll').addEventListener('click', ()=>{
+  state.scores = JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(BASELINE).map(([k,v])=>[k,Object.assign({},v.scores)]))));
+  state.feed = Object.fromEntries(Object.entries(BASELINE).map(([k,v])=>[k,v.feed]));
+  state.weights = Object.assign({}, PRESETS.network.w);
+  document.querySelectorAll('.phase-btn').forEach(b=>b.classList.toggle('active', b.dataset.preset==='network'));
+  renderWeights(); renderTable(); renderSizing();
+});
+
+document.getElementById('criteriaCards').innerHTML = CRITERIA.map(c=>`<div class="card"><h3>${c.name}</h3><p>${({
+  feedstock:'Collectible EoL + manufacturing-scrap volume and diversity by 2030: passenger/commercial EV, 2-wheeler swap fleets, BESS/solar retirement, industrial &amp; mining batteries.',
+  chinaexport:'Ability to land compliant black mass in China at preferential tariff: RCEP/ACFTA origin, port lanes, and process discipline to meet GB/T 45203-2024 (F ≤0.4%; NCM Ni+Co ≥25%, Li ≥3.5%; LFP Fe ≥18%).',
+  cdrbm:'Readiness to underwrite Certified Decarbonised Recycled Battery Materials: credible green-power procurement at module scale (~850 kW operating), certification bodies, traceability / mass-balance infrastructure.',
+  regulation:'Ease of licensing EoL collection, pre-processing and black-mass export: EPR scope, waste-movement permits, permitting culture, Basel alignment.',
+  whitespace:'How crowded the local recycling field is — inverse-scored (5 = open field).',
+  parklog:'Fit for 60 × 12 m modular lines: industrial-park availability, install services, port/logistics access to China shipping lanes.',
+  optionality:'Local battery-industry pull for later full hydromet localisation and Phase 3 ECRU / Carbon value-add.'})[c.key]}</p></div>`).join('');
+
+document.getElementById('insights').innerHTML = [
+  '<b>Modular economics change the conclusions from the v1 screen.</b> At ~850 kW operating and 60 × 12 m per 1 t/hr module, the plant-scale constraints that hurt Indonesia (coal grid) and Singapore (land) largely dissolve — RECs + rooftop solar cover module load, and any estate bay fits a line. What remains decisive is feedstock, the China export route, and CDRBM credibility.',
+  '<b>The China offtake corridor is the network\'s spine — and its quality gate.</b> China opened black-mass imports Aug 2025 with a strict ≤0.4% water-soluble fluoride limit and metal-content floors, cut the import tariff to 3% in Jan 2026 with ASEAN-origin material at zero. Whalefall\'s electromagnetic-pyrolysis line (black powder purity ≥95%, Cu/Al ≤1.5%) is spec-aligned; the differentiator is batch-after-batch compliance + CDRBM traceability, which generic local shredders cannot offer.',
+  '<b>Sequencing: Wave 1 = Thailand + Australia (2 modules) + Singapore hub.</b> Thailand scores #1 (4.20) with the best export route; Australia (4.00) locks in the mining-swap and BESS streams early per your plan — NW WA for Pilbara fleets, NSW/QLD (or SA) for eastern volumes; Singapore hosts CDRBM certification &amp; trading rather than a plant.',
+  '<b>Wave 2 = Vietnam + Indonesia — volume engines.</b> Vietnam (3.80) brings the best CDRBM-ready green power; Indonesia (3.65) brings the deepest long-term feedstock (2W swap + EV + nickel-chain scrap) and the strongest Phase 2/3 policy pull — enter with a certified-export positioning to cut through the crowded policy field.',
+  '<b>Wave 3 / watchlist: Malaysia (3.45) and Philippines (2.60).</b> Malaysia is a manufacturing-scrap module timed to Samsung SDI/Nexcap ramp-up — and a Phase 2/ECRU candidate; Philippines waits for battery EPR and BESS tenders to mature (~2028+).',
+  '<b>Phase 3 ECRU/Carbon optionality ranks: Indonesia ≈ Malaysia > Thailand > Vietnam.</b> Anchor ECRU where industrial policy pays for value-add and feedstock density is highest; keep Australia as a pure feedstock node.',
+].map(x=>`<div class="insight">${x}</div>`).join('');
+
+document.getElementById('sources').innerHTML = SOURCES.map(s=> s[1]==='internal'
+  ? `<li>${s[0]}</li>`
+  : `<li>${s[0]} — <a href="${s[1]}" target="_blank" rel="noopener">${s[1].replace(/^https?:\/\//,'')}</a></li>`).join('');
+
+// ---------- CDRBM architecture ----------
+const CDRBM_STAGES = [
+  ['S1 · Feedstock intake & identity','Module gate — plant operator (THA/VNM/IDN/MYS/AUS)',
+   'Every battery logged: intake ID, source category (OEM take-back / 2W-swap / BESS / mining / consumer), chemistry, mass, SoH or QR, photo. <b>Artefact:</b> Intake Record + supplier chain-of-custody handover.'],
+  ['S2 · Pre-processing & metering','Module line — plant operator',
+   'Lot ID, sub-metered kWh, REC/GO retirements, mass-balance entries, output assays (purity ≥95%, F ≤0.4%). <b>Artefact:</b> Lot File = ISO 22095-2 mass-balance ledger entry, balancing period ≤ 3 months, no negative balances.'],
+  ['S3 · Black mass consignment','Export node — operator + forwarder',
+   'Container/seal IDs, assay certificate, GB/T 45203-2024 conformity, RCEP Form R / ACFTA Form E certificate of origin, customs declaration. <b>Artefact:</b> Consignment Dossier (non-waste classification for the China route; Basel TBM docs retained for any waste-classified routing to JP/KR/EU).'],
+  ['S4 · Sea freight & custody','In transit — carrier',
+   'Bill of lading, seal integrity, custody transfers. <b>Rule:</b> seal-break escalation = lot quarantine until re-verified.'],
+  ['S5 · Receipt & refining','Whalefall China GEN4',
+   'Re-weigh, re-assay, recovery yields, hydromet energy + renewable share (GEC/PPA). <b>Artefact:</b> Refining Lot File — the same mass balance continues across the border in one registry, with conversion factors to Li₂CO₃/LiOH and Ni/Co/Mn salts.'],
+  ['S6 · PCF computation','Whalefall + Cetacea Carbon',
+   'ISO 14067 cradle-to-gate PCF per output lot, including the ASEAN leg transport and REC-adjusted energy. <b>Artefact:</b> PCF Report (methodology, emission factors, data-quality rating).'],
+  ['S7 · Verification','SG hub — accredited verifier',
+   'Per-consignment document review, batch sampling plan, quarterly site audits. <b>Artefact:</b> Verification Statement per consignment (verifier accredited to ISO/IEC 17065).'],
+  ['S8 · Certificate issuance','Cetacea Carbon / Baiji — scheme owner',
+   'Per output lot: element-level recycled mass (Li/Ni/Co/Mn), green-power %, PCF, CoC model, registry hash. <b>Artefact:</b> CDRBM Certificate + append-only public registry entry; wording "attributed recycled content (ISO 22095 mass balance)" unless the lot was physically segregated.'],
+  ['S9 · Compliance packaging','Customer / OEM',
+   'EU Battery Passport fields (recycled-content declaration from Aug 2028; passport live Feb 2027), China traceability/EPR filing, EPDs on request. <b>Artefact:</b> passport data package (JSON-LD per Battery Pass / GBA schemas); due-diligence evidence applicable Aug 2027.'],
+];
+document.getElementById('cdrbmStages').innerHTML = CDRBM_STAGES.map(s=>`<div class="card"><h3>${s[0]}</h3><p style="color:var(--olive);font-size:11px;font-weight:700;margin-bottom:4px">${s[1]}</p><p>${s[2]}</p></div>`).join('');
+
+const CDRBM_RULES = [
+  'R1 · Single claims registry — recycled-content and green-power attributes are retired the moment they are sold; no attribute exists twice.',
+  'R2 · Mass balance operates site-by-site (each module, then Whalefall); the network registry only allocates claims — it never moves mass.',
+  'R3 · Green-power hierarchy per lot: (1) direct PPA / onsite, (2) retired market instruments (I-REC / GO / GEC), (3) disclosed grid factor. The certificate states the tier used.',
+  'R4 · Australia dual-track — attribute allocation is locked at shipment routing (China vs JP/KR/ANZ): one lot, one claim, one destination logic.',
+  'R5 · Audit cadence — document check per consignment; site audit quarterly; scheme review annually; records retained ≥ 10 years.',
+];
+document.getElementById('cdrbmRules').innerHTML = '<div class="card"><h3>Design rules — anti-double-count &amp; claim integrity</h3><ul>' +
+  CDRBM_RULES.map(x=>`<li>${x}</li>`).join('') + '</ul></div>';
+
+const CDRBM_ANCHORS = [
+  'ISO 22095:2020 + ISO 22095-2:2026 — chain-of-custody terminology and mass-balance rules (the CoC model CDRBM adopts)',
+  'ISO 14067 / ISO 14040-44 — product carbon footprint methodology',
+  'EU Battery Regulation 2023/1542 — battery passport mandatory 18 Feb 2027 (fixed); recycled-content declaration from Aug 2028 (conditional on delegated act); minimum recycled content Co 16% / Pb 85% / Li 6% / Ni 6% from Aug 2031, rising to 26/85/12/15% in 2036; due diligence applies 18 Aug 2027 (postponed by Reg (EU) 2025/1561)',
+  'GB/T 45203-2024 + MEE Announcement (1 Aug 2025) — black mass into China as non-waste recycled raw material (HS 3824999996); water-soluble F ≤ 0.4%',
+  'RCEP Form R / ACFTA Form E — preferential origin for zero-tariff China entry of ASEAN-origin material',
+  'I-REC / GO / China GEC — acceptable renewable-electricity instruments',
+  'GBA Battery Passport / Battery Pass content guides — JSON-LD schemas for passport data packages; China NEV battery traceability platform — domestic filing endpoint',
+];
+document.getElementById('cdrbmAnchors').innerHTML = '<div class="card"><h3>Standards &amp; regulatory anchors (verified September 2026)</h3><ul>' +
+  CDRBM_ANCHORS.map(x=>`<li>${x}</li>`).join('') + '</ul></div>';
+
+renderWeights();
+renderTable();
+renderSizing();
+</script>
+</body>
+</html>
